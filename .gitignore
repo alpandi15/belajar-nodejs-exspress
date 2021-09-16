@@ -1,6 +1,2 @@
-# Production
 /node_modules
 .env
-dist
-/coverage/*
-/src/public/*
