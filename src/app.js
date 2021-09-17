@@ -2,7 +2,10 @@ import express from 'express'
 import createError from 'http-errors'
 import path from 'path'
 import cookieParser from 'cookie-parser'
+import errorHandler from 'errorhandler'
 import logger from 'morgan'
+import customErrorHandler from '#middleware/errorHandler'
+import project from '#config/project.config'
 
 import routes from '#routes'
 
@@ -18,13 +21,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use(responseLogger(project.res_log_level))
+
+if (project.env === 'development') {
+  app.use(errorHandler({ dumpExceptions: true, showStack: true }))
+}
+
+
 // routes
 routes(app)
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
-});
+app.use(customErrorHandler)
+
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//     next(createError(404));
+// });
 
 // error handler
 app.use(function(err, req, res, next) {

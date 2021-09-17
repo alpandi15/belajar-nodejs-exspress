@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const environment = {
+    env: process.env.NODE_ENV || 'development',
+    res_log_level: process.env.RESPONSE_LOG_LEVEL,
     server_port: process.env.PORT,
 
     db_url: process.env.DATABASE_URL,

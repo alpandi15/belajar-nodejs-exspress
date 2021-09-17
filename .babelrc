@@ -8,7 +8,8 @@
         "#database": "./src/database",
         "#lib": "./src/lib",
         "#services": "./src/services",
-        "#controllers": "./src/controllers"
+        "#controllers": "./src/controllers",
+        "#middleware": "./src/middleware"
       }
     }]
   ]

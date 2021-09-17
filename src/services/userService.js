@@ -9,10 +9,7 @@ const tbl_users = tables.users
 
 export const create = async (data) => {
   const res = await tbl_users.create({
-    name: 'Tester',
-    username: 'tester',
-    email: 'tester@gmail.com',
-    password: 'Ini di password'
+    name: 'Tester'
   })
   return res
 }
