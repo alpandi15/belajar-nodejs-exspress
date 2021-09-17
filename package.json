@@ -7,14 +7,19 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "debug": "^4.3.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
+    "pug": "^3.0.2",
     "sequelize": "^6.6.5"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/app.js",
+    "start": "nodemon --exec babel-node ./src/bin/server.js",
     "build": "npm run clean && babel ./src --out-dir dist --copy-files",
     "clean": "rm -rf dist",
     "create:model": "func() { npx sequelize-cli model:generate --name \"$1\" --attributes name:string; }; func",
