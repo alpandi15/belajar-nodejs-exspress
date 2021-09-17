@@ -4,7 +4,11 @@
     ["module-resolver", {
       "alias": {
         "#routes": "./src/routes",
-        "#config": "./config"
+        "#config": "./config",
+        "#database": "./src/database",
+        "#lib": "./src/lib",
+        "#services": "./src/services",
+        "#controllers": "./src/controllers"
       }
     }]
   ]

@@ -1,4 +1,5 @@
 import express from 'express'
+import {registerUser} from '../../controllers/auth/authController'
 
 const router = express.Router()
 const prefix = {
@@ -9,8 +10,6 @@ const prefix = {
 router.get(prefix.login, (req, res) => {
     res.send('Login Bro')
 })
-router.get(prefix.register, (req, res) => {
-    res.send('Register Bro')
-})
+router.post(prefix.register, registerUser)
 
 export default router

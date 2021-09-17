@@ -26,7 +26,8 @@
     "clean": "rm -rf dist",
     "create:model": "func() { npx sequelize-cli model:generate --name \"$1\" --attributes name:string; }; func",
     "migrate": "npx sequelize-cli db:migrate",
-    "migration:rollback": "npx sequelize-cli db:migrate:undo"
+    "migration:rollback": "npx sequelize-cli db:migrate:undo",
+    "migration:rollback:all": "npx sequelize-cli db:migrate:undo:all"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
