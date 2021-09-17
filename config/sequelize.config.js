@@ -1,6 +1,6 @@
-import project from './project.config.js'
+import project from './project.config'
 
-const sequelizeConfig = {
+module.exports = {
  development: {
    username: project.db_user,
    password: project.db_pwd,
@@ -39,4 +39,4 @@ const sequelizeConfig = {
  }
 }
 
-export default sequelizeConfig
+// export default sequelizeConfig
