@@ -13,6 +13,7 @@
   },
   "scripts": {
     "start": "nodemon ./src/app.js",
+    "create:model": "func() { npx sequelize-cli model:generate --name \"$1\" --attributes name:string; }; func",
     "build": "npm run build"
   },
   "type": "module",
