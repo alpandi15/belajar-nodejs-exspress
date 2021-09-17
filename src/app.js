@@ -1,7 +1,7 @@
 import express from 'express'
 
-import routes from './router/index.js'
-import confing from '../config/project.config.js'
+import routes from '#routes'
+import confing from '#config/project.config.js'
 
 const app = express()
 routes(app)

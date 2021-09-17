@@ -1,6 +1,6 @@
 import project from './project.config.js'
- 
-module.exports = {
+
+const sequelizeConfig = {
  development: {
    username: project.db_user,
    password: project.db_pwd,
@@ -38,3 +38,5 @@ module.exports = {
    dialect: 'mysql',
  }
 }
+
+export default sequelizeConfig
