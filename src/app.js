@@ -4,8 +4,10 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import errorHandler from 'errorhandler'
 import logger from 'morgan'
+import helmet from 'helmet'
 import customErrorHandler from '#middleware/errorHandler'
 import project from '#config/project.config'
+import models from '#database/models'
 
 import routes from '#routes'
 
@@ -20,18 +22,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(helmet())
+app.disable('x-powered-by')
 // app.use(responseLogger(project.res_log_level))
 
 if (project.env === 'development') {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }))
 }
 
-
 // routes
 routes(app)
 
 app.use(customErrorHandler)
+
+models.sequelize.sync().then(() => {
+  console.log(`Database ${project.db_name} initialized.`)
+}).catch((err) => console.error('An Error occured while initializing the database.', err))
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

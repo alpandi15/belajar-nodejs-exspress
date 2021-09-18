@@ -7,7 +7,7 @@ export const logException = (err) => {
 }
 
 export const ApiResponse = (res, resCode = 200, statusCode = 0, data = {}, meta = {}) => {
-  res.status(resCode).json({
+  return res.status(resCode).json({
     success: true,
     meta,
     data,
