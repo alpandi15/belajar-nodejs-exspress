@@ -1,16 +1,17 @@
-import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import project from '#config/project.config'
 
 export const generatePassword = async (password) => {
-  const salt = await getRandomString(65)
-  return sha512(password, salt)
+  return bcrypt.hash(password, 10)
 }
 
-export function sha512(password, salt) {
-  const hash = crypto.createHmac('sha512', salt)
-  hash.update(password)
-  return hash.digest('hex')
+export function generateToken(obj, time = 10) {
+  return jwt.sign(obj, project.jwt_secret, {
+    expiresIn: project.jwt_expired || time // in seconds
+  })
 }
-
-export const getRandomString = (length) => crypto.randomBytes(Math.ceil(length / 2))
-  .toString('hex')
-  .slice(0, length)
+  
+export const isValidPassword = (password, userPassword) => {
+  return bcrypt.compare(password, userPassword)
+}

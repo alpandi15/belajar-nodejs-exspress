@@ -38,3 +38,15 @@ export const create = async (data) => {
   })
   return res
 }
+
+export const getAccount = async (account) => {
+  return tbl_users.findOne({
+    attributes: UserById.concat(['password']),
+    where: {
+      [Op.or]: {
+        username: account,
+        email: account
+      }
+    }
+  })
+}

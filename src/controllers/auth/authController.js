@@ -1,6 +1,7 @@
-import {create, getOne} from '#services/userService'
+import {create, getOne, getAccount} from '#services/userService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
-import {generatePassword} from '#services/utils/securityService'
+import {generatePassword, isValidPassword, generateToken} from '#services/utils/securityService'
+import project from '#config/project.config'
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -40,6 +41,34 @@ export const getUser = async (req, res, next) => {
     return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
   } catch (error) {
     // console.log('ERROR ', error.stack);
+    return next(new ApiError(422, '002', 'Internal server error', error.stack))
+  }
+}
+
+export const login = async (req, res, next) => {
+  try {
+    // cek data user
+    const data = await getAccount(req?.body?.account)
+    if (!data) {
+      return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
+    }
+
+    // cek password valid
+    const isValid = await isValidPassword(req?.body?.password, data?.password)
+    if (!isValid) {
+      return next(new ApiError(422, '001', 'Password anda salah', 'Wrong Password'))
+    }
+
+    const responseData = {
+      token_type: 'Bearer',
+      access_token: await generateToken(data.get()),
+      expires_in: project.auth_expire
+    }
+    // response success login
+    return ApiResponse(res, 200, 0, responseData, {
+      message: 'Success Login'
+    })
+  } catch (error) {
     return next(new ApiError(422, '002', 'Internal server error', error.stack))
   }
 }

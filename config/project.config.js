@@ -15,6 +15,8 @@ const environment = {
     db_name: process.env.DATABASE_NAME,
     db_dialect: process.env.DATABASE_DIALECT,
     db_logging: process.env.DATABASE_LOGGING,
+    jwt_secret: process.env.JWT_SECRET,
+    jwt_expired: process.env.JWT_EXPIRE,
 }
 
 export default environment
