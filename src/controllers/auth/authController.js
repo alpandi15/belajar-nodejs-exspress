@@ -1,9 +1,21 @@
 import {create, getOne} from '#services/userService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
+import {generatePassword} from '#services/utils/securityService'
 
 export const registerUser = async (req, res, next) => {
   try {
-    const createUser = await create(req.body)
+    const password = await generatePassword(String(req?.body?.password))
+    // return res.status(200).send({
+    //   password,
+    //   pass: String(req?.body?.password)
+    // })
+
+    const createUser = await create({
+      name: req?.body?.name,
+      email: req?.body?.email,
+      username: req?.body?.username,
+      password
+    })
     if (createUser) {
       return ApiResponse(res, 200, '000', createUser, {
         message: 'Success create users'
