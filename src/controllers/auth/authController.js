@@ -6,10 +6,6 @@ import project from '#config/project.config'
 export const registerUser = async (req, res, next) => {
   try {
     const password = await generatePassword(String(req?.body?.password))
-    // return res.status(200).send({
-    //   password,
-    //   pass: String(req?.body?.password)
-    // })
 
     const createUser = await create({
       name: req?.body?.name,
@@ -24,7 +20,6 @@ export const registerUser = async (req, res, next) => {
     }
     return next(new ApiError(422, '001', 'Failed to create user', 'Data gagal di input'))
   } catch (error) {
-    // console.log('ERROR ', error.errors);
     return next(new ApiError(422, '002', 'Internal server error', error))
   }
 }
