@@ -1,6 +1,6 @@
 import {create, getOne, getAccount} from '#services/userService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
-import {generatePassword, isValidPassword, generateToken, extractTokenProfile} from '#services/utils/securityService'
+import {generatePassword, isValidPassword, generateToken} from '#services/utils/securityService'
 import project from '#config/project.config'
 
 export const registerUser = async (req, res, next) => {
@@ -20,19 +20,17 @@ export const registerUser = async (req, res, next) => {
     }
     return next(new ApiError(422, '001', 'Failed to create user', 'Data gagal di input'))
   } catch (error) {
-    return next(new ApiError(500, '002', 'Internal server error', error))
+    return next(new ApiError(500, '002', 'Internal server error', error.stack))
   }
 }
 
 export const getMyProfile = async (req, res, next) => {
   try {
-    const dataToken = extractTokenProfile(req)
-    if (!dataToken) return next(new ApiError(422, '001', 'Token invalid', 'User not found'))
-
-    const data = await getOne(dataToken?.id)
+    console.log('REQUEST ', req.user);
+    const data = await getOne(req?.user?.id)
     if (!data) return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
 
-    return ApiResponse(res, 200, 0, data, {
+    return ApiResponse(res, 200, '000', data, {
       message: 'Success get profile'
     })
   } catch (error) {
@@ -60,7 +58,7 @@ export const login = async (req, res, next) => {
       expires_in: project.auth_expire
     }
     // response success login
-    return ApiResponse(res, 200, 0, responseData, {
+    return ApiResponse(res, 200, '000', responseData, {
       message: 'Success Login'
     })
   } catch (error) {

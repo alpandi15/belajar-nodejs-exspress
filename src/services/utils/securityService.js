@@ -17,7 +17,6 @@ export const isValidPassword = (password, userPassword) => {
 }
 
 export const extractToken = (req) => {
-  console.log('HEADERS ', req?.headers)
   if (req?.headers?.authorization) {
     const headersParams = req?.headers?.authorization.split(' ')
     if (headersParams[0] === 'Bearer')
@@ -28,6 +27,10 @@ export const extractToken = (req) => {
 }
 
 export const extractTokenProfile = (req) => {
-  const jwtToken = extractToken(req)
-  return jwt.verify(jwtToken, project.jwt_secret)
+  try {
+    const jwtToken = extractToken(req)
+    return jwt.verify(jwtToken, project.jwt_secret)
+  } catch (error) {
+    throw new Error(error.stack)
+  }
 }
