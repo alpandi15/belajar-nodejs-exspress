@@ -15,3 +15,19 @@ export function generateToken(obj, time = 10) {
 export const isValidPassword = (password, userPassword) => {
   return bcrypt.compare(password, userPassword)
 }
+
+export const extractToken = (req) => {
+  console.log('HEADERS ', req?.headers)
+  if (req?.headers?.authorization) {
+    const headersParams = req?.headers?.authorization.split(' ')
+    if (headersParams[0] === 'Bearer')
+      return headersParams[1]
+    return null
+  }
+  return null
+}
+
+export const extractTokenProfile = (req) => {
+  const jwtToken = extractToken(req)
+  return jwt.verify(jwtToken, project.jwt_secret)
+}
