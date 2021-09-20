@@ -13,8 +13,9 @@ export const requireAuth = (req, res, next) => {
     }
 
     const decode = extractTokenProfile(req)
+
+    // add to request
     req.user = decode
-    // console.log('Headers ', req);
     next()
   } catch (error) {
     return next(new ApiError(400, '004', 'Unauthorize', error.stack))

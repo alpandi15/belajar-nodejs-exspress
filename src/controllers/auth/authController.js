@@ -26,7 +26,6 @@ export const registerUser = async (req, res, next) => {
 
 export const getMyProfile = async (req, res, next) => {
   try {
-    console.log('REQUEST ', req.user);
     const data = await getOne(req?.user?.id)
     if (!data) return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
 
