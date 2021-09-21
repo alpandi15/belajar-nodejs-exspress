@@ -13,6 +13,14 @@ export const validation = (method) => {
         check('password').notEmpty().withMessage('Password requreid').isLength({ min: 6}).withMessage('Minimum 6 characters').trim(),
       ]
     }
+    case 'register': {
+      return [
+        check('name').notEmpty().withMessage('Required'),
+        check('username').notEmpty().withMessage('Required'),
+        check('email').isEmail().withMessage('Use email format'),
+        check('password').notEmpty().withMessage('Password requreid').isLength({ min: 6}).withMessage('Minimum 6 characters').trim(),
+      ]
+    }
   }
 }
 
@@ -43,6 +51,11 @@ export const validation = (method) => {
  */
 export const registerUser = async (req, res, next) => {
   try {
+    const validate = validationResult(req)
+    if (!validate.isEmpty()) {
+      return next(new ApiError(422, responseCode.param_error.code, responseCode.param_error.message, validate.array()))
+    }
+
     // cek data user
     const checkEmail = await isAccountExist(req?.body?.email)
     if (checkEmail) return next(new ApiError(422, responseCode.account_is_exist.code, responseCode.account_is_exist.message, 'Email sudah terdaftar, silahkan login'))
@@ -105,10 +118,10 @@ export const getMyProfile = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const validate = validationResult(req)
-    console.log('VALIDET ', validate.isEmpty());
     if (!validate.isEmpty()) {
       return next(new ApiError(422, responseCode.param_error.code, responseCode.param_error.message, validate.array()))
     }
+
     // cek data user
     const data = await getAccount(req?.body?.account)
     if (!data) {

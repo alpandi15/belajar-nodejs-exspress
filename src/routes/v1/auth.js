@@ -11,7 +11,7 @@ const prefix = {
 }
 
 router.post(prefix.login, validation('login'), login)
-router.post(prefix.register, registerUser)
+router.post(prefix.register, validation('register'), registerUser)
 router.get(prefix.myProfile, requireAuth, getMyProfile)
 
 export default router
