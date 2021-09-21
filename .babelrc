@@ -9,7 +9,8 @@
         "#lib": "./src/lib",
         "#services": "./src/services",
         "#controllers": "./src/controllers",
-        "#middleware": "./src/middleware"
+        "#middleware": "./src/middleware",
+        "#constant": "./src/constant"
       }
     }]
   ]

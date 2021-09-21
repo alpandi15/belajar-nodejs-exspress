@@ -1,7 +1,8 @@
-import {create, getOne, getAccount} from '#services/userService'
+import {create, getOne, getAccount, isAccountExist} from '#services/userService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
 import {generatePassword, isValidPassword, generateToken} from '#services/utils/securityService'
 import project from '#config/project.config'
+import responseCode from '../../constant/responseStatus'
 
 // Annotation Models
 /**
@@ -30,6 +31,13 @@ import project from '#config/project.config'
  */
 export const registerUser = async (req, res, next) => {
   try {
+    // cek data user
+    const checkEmail = await isAccountExist(req?.body?.email)
+    if (checkEmail) return next(new ApiError(422, responseCode.account_is_exist.code, responseCode.account_is_exist.message, 'Email sudah terdaftar, silahkan login'))
+
+    const checkUsername = await isAccountExist(req?.body?.username)
+    if (checkUsername) return next(new ApiError(422, responseCode.account_is_exist.code, responseCode.account_is_exist.message, 'Username sudah terdaftar, silahkan login'))
+
     const password = await generatePassword(String(req?.body?.password))
 
     const createUser = await create({
@@ -39,13 +47,13 @@ export const registerUser = async (req, res, next) => {
       password
     })
     if (createUser) {
-      return ApiResponse(res, 200, '000', createUser, {
+      return ApiResponse(res, 200, responseCode.success.code, createUser, {
         message: 'Success create users'
       })
     }
-    return next(new ApiError(422, '001', 'Failed to create user', 'Data gagal di input'))
+    return next(new ApiError(422, responseCode.error.code, 'Failed to create user', 'Data gagal di input'))
   } catch (error) {
-    return next(new ApiError(500, '002', 'Internal server error', error.stack))
+    return next(new ApiError(500, responseCode.internal_error.code, responseCode.internal_error.detail, error.stack))
   }
 }
 
@@ -62,13 +70,13 @@ export const registerUser = async (req, res, next) => {
 export const getMyProfile = async (req, res, next) => {
   try {
     const data = await getOne(req?.user?.id)
-    if (!data) return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
+    if (!data) return next(new ApiError(422, responseCode.not_found.code, 'User tidak di temukan', 'User not found'))
 
-    return ApiResponse(res, 200, '000', data, {
+    return ApiResponse(res, 200, responseCode.success.code, data, {
       message: 'Success get profile'
     })
   } catch (error) {
-    return next(new ApiError(500, '002', 'Internal server error', error.stack))
+    return next(new ApiError(500, responseCode.internal_error.code, 'Internal server error', error.stack))
   }
 }
 
@@ -87,13 +95,13 @@ export const login = async (req, res, next) => {
     // cek data user
     const data = await getAccount(req?.body?.account)
     if (!data) {
-      return next(new ApiError(422, '001', 'User tidak di temkan', 'User not found'))
+      return next(new ApiError(422, responseCode.not_found.code, responseCode.not_found.message, 'User not found'))
     }
 
     // cek password valid
     const isValid = await isValidPassword(req?.body?.password, data?.password)
     if (!isValid) {
-      return next(new ApiError(422, '001', 'Password anda salah', 'Wrong Password'))
+      return next(new ApiError(422, responseCode.wrong_password.code, responseCode.wrong_password.message, 'Wrong Password'))
     }
 
     const responseData = {
@@ -102,10 +110,10 @@ export const login = async (req, res, next) => {
       expires_in: project.auth_expire
     }
     // response success login
-    return ApiResponse(res, 200, '000', responseData, {
+    return ApiResponse(res, 200, responseCode.success.code, responseData, {
       message: 'Success Login'
     })
   } catch (error) {
-    return next(new ApiError(500, '002', 'Internal server error', error.stack))
+    return next(new ApiError(500, responseCode.internal_error.code, responseCode.internal_error.message, error.stack))
   }
 }

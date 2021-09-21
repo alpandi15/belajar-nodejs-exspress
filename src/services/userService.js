@@ -50,3 +50,12 @@ export const getAccount = async (account) => {
     }
   })
 }
+
+export const isAccountExist = async (account) => tbl_users.count({
+  where: { 
+    [Op.or]: {
+      username: account,
+      email: account
+    }
+   }
+})
