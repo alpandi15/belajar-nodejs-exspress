@@ -1,6 +1,5 @@
 import {create} from '#services/uploadService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
-import {check, validationResult} from 'express-validator'
 import responseCode from '../../constant/responseStatus'
 import path from 'path'
 import multer from 'multer'
@@ -11,6 +10,7 @@ const typeList = [
   'images',
   'files'
 ]
+
 export function imageFilter (req, file, cb) {
   // accept image only
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -31,12 +31,13 @@ export const uploadFile = async (req, res, next) => {
     const storage = multer.diskStorage({
       destination: UPLOAD_PATH,
       filename: (req, file, cb) => {
+        console.log('REQUEST ', req);
         const nameUuid = uuidv4()
         filename = nameUuid + path.extname(file?.originalname)
         cb(null, filename)
       }
     })
-    
+
     const uploading = multer({
       dest: UPLOAD_PATH,
       storage,
@@ -45,7 +46,7 @@ export const uploadFile = async (req, res, next) => {
     
     uploading(req, res, async (err) => {
       if (!req.file) {
-        return next(new ApiError(422, responseCode.error.code, responseCode.error.message, err))
+        return next(new ApiError(422, responseCode.error.code, responseCode.error.message, err?.stack || 'Failed to read file, please check format'))
       }
 
       // response success

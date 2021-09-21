@@ -1,5 +1,5 @@
 import express from 'express'
-import {uploadFile} from '../../controllers/upload/uploadController'
+import {uploadFile, validation} from '../../controllers/upload/uploadController'
 import {requireAuth} from '../../middleware/authenticate'
 import {apiVersion} from '../version'
 
