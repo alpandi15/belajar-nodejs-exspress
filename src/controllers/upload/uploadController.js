@@ -1,4 +1,4 @@
-// import {uploadFile} from '#services/uploadService'
+import {create} from '#services/uploadService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
 import {check, validationResult} from 'express-validator'
 import responseCode from '../../constant/responseStatus'
@@ -50,6 +50,12 @@ export const uploadFile = async (req, res, next) => {
 
       // response success
       const SIMPLE_PATH = path.join(req.params.type, moment().format('MMMYYYY'), filename)
+
+      // save to table upload_files
+      await create({
+        url: SIMPLE_PATH,
+        userId: req?.user?.id
+      })
       return ApiResponse(res, 200, responseCode.success.code, {
         path: SIMPLE_PATH
       }, {
