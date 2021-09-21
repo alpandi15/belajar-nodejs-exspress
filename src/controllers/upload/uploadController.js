@@ -60,7 +60,7 @@ export const uploadFile = async (req, res, next) => {
       return ApiResponse(res, 200, responseCode.success.code, {
         path: SIMPLE_PATH
       }, {
-        message: 'Success Uploading'
+        message: 'Success'
       })
     })
   } catch (error) {
