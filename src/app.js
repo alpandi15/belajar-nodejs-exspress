@@ -1,5 +1,6 @@
 import express from 'express'
 import createError from 'http-errors'
+import session from 'cookie-session'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import errorHandler from 'errorhandler'
@@ -30,8 +31,24 @@ if (project.env === 'development') {
   app.use(errorHandler({ dumpExceptions: true, showStack: true }))
 }
 
+const sessionOption = {
+  secret: 'express-sessions-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
+}
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sessionOption.cookie.secure = false // serve secure cookies
+}
+
+app.use(session(sessionOption))
+
 // routes
 routes(app)
+
+app.use('/public', express.static(path.join(__dirname, '/src/public')));
 
 app.use(customErrorHandler)
 

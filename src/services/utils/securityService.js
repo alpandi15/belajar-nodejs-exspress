@@ -6,9 +6,9 @@ export const generatePassword = async (password) => {
   return bcrypt.hash(password, 10)
 }
 
-export function generateToken(obj, time = 10) {
+export function generateToken(obj, time = Math.floor(Date.now() / 1000) + (60 * 60)) {
   return jwt.sign(obj, project.jwt_secret, {
-    expiresIn: project.jwt_expired || time // in seconds
+    expiresIn: (Math.floor(Date.now() / 1000) + Number(project.jwt_expired)) || time // in seconds
   })
 }
   
