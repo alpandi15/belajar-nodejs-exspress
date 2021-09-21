@@ -2,7 +2,19 @@ import {create, getOne, getAccount, isAccountExist} from '#services/userService'
 import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
 import {generatePassword, isValidPassword, generateToken} from '#services/utils/securityService'
 import project from '#config/project.config'
+import {check, validationResult} from 'express-validator'
 import responseCode from '../../constant/responseStatus'
+
+export const validation = (method) => {
+  switch (method) {
+    case 'login': {
+      return [
+        check('account').notEmpty().withMessage('Required'),
+        check('password').notEmpty().withMessage('Password requreid').isLength({ min: 6}).withMessage('Minimum 6 characters').trim(),
+      ]
+    }
+  }
+}
 
 // Annotation Models
 /**
@@ -92,6 +104,11 @@ export const getMyProfile = async (req, res, next) => {
  */
 export const login = async (req, res, next) => {
   try {
+    const validate = validationResult(req)
+    console.log('VALIDET ', validate.isEmpty());
+    if (!validate.isEmpty()) {
+      return next(new ApiError(422, responseCode.param_error.code, responseCode.param_error.message, validate.array()))
+    }
     // cek data user
     const data = await getAccount(req?.body?.account)
     if (!data) {

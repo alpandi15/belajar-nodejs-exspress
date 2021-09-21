@@ -1,5 +1,5 @@
 import express from 'express'
-import {registerUser, login, getMyProfile} from '../../controllers/auth/authController'
+import {registerUser, login, getMyProfile, validation} from '../../controllers/auth/authController'
 import {requireAuth} from '../../middleware/authenticate'
 import {apiVersion} from '../version'
 
@@ -10,7 +10,7 @@ const prefix = {
   myProfile: `${apiVersion}/auth/me`
 }
 
-router.post(prefix.login, login)
+router.post(prefix.login, validation('login'), login)
 router.post(prefix.register, registerUser)
 router.get(prefix.myProfile, requireAuth, getMyProfile)
 

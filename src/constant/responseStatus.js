@@ -7,6 +7,7 @@ const account_is_exist = {code: '102', message: 'account_is_exist', detail: 'Acc
 const wrong_password = {code: '103', message: 'wrong_password', detail: 'Wrong Passsword'}
 
 const not_found = {code: '201', message: 'not_found', detail: 'Data not found'}
+const param_error = {code: '301', message: 'param_error', detail: 'Parameter error'}
 
 export default {
   success,
@@ -15,5 +16,6 @@ export default {
   session_expired_or_errors,
   account_is_exist,
   wrong_password,
-  not_found
+  not_found,
+  param_error
 }
