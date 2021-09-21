@@ -4,13 +4,20 @@ import {generatePassword, isValidPassword, generateToken} from '#services/utils/
 import project from '#config/project.config'
 
 /**
- * This function comment is parsed by doctrine
- * @route GET /api
- * @group foo - Operations about user
- * @param {string} email.query.required - username or email - eg: user@domain
- * @param {string} password.query.required - user's password.
- * @returns {object} 200 - An array of user info
- * @returns {Error}  default - Unexpected error
+ * @typedef LoginModel
+ * @property {string} account.required - account user email or username - eg: pandi@gmail.com
+ * @property {string} password.required - password - eg: 111111
+ */
+
+/**
+ * To login application user
+ * @route POST /auth/login
+ * @group Auth - Authentication
+ * @param {LoginModel.model} request.body.required - params for login user
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
  */
 export const registerUser = async (req, res, next) => {
   try {

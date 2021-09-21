@@ -9,7 +9,7 @@ const prefix = {
   register: `${apiVersion}/auth/register`,
   myProfile: `${apiVersion}/auth/me`
 }
-console.log('PREVIEX ', prefix);
+
 router.post(prefix.login, login)
 router.post(prefix.register, registerUser)
 router.get(prefix.myProfile, requireAuth, getMyProfile)
