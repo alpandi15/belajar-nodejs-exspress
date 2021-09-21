@@ -3,6 +3,7 @@ import {ApiResponse, ApiError} from '#services/utils/responseHandlingService'
 import {generatePassword, isValidPassword, generateToken} from '#services/utils/securityService'
 import project from '#config/project.config'
 
+// Annotation Models
 /**
  * @typedef LoginModel
  * @property {string} account.required - account user email or username - eg: pandi@gmail.com
@@ -10,10 +11,18 @@ import project from '#config/project.config'
  */
 
 /**
+ * @typedef RegisterModel
+ * @property {string} name.required - your name - eg: Jhon Doe
+ * @property {string} email.required - your email - eg: jhondoe@mail.com
+ * @property {string} username.required - your username - eg: jhon_doe
+ * @property {string} password.required - yout password - eg: 123456
+ */
+
+/**
  * To login application user
- * @route POST /auth/login
+ * @route POST /auth/register
  * @group Auth - Authentication
- * @param {LoginModel.model} request.body.required - params for login user
+ * @param {RegisterModel.model} request.body.required - params for login user
  * @produces application/json
  * @consumes application/json
  * @returns {ApiResponse.model} 200 - Example to success response
@@ -40,6 +49,16 @@ export const registerUser = async (req, res, next) => {
   }
 }
 
+/**
+ * To get session user with token
+ * @route GET /auth/me
+ * @group Auth - Authentication
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
+ * @security JWT
+ */
 export const getMyProfile = async (req, res, next) => {
   try {
     const data = await getOne(req?.user?.id)
@@ -53,6 +72,16 @@ export const getMyProfile = async (req, res, next) => {
   }
 }
 
+/**
+ * To login application user
+ * @route POST /auth/login
+ * @group Auth - Authentication
+ * @param {LoginModel.model} request.body.required - params for login user
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
+ */
 export const login = async (req, res, next) => {
   try {
     // cek data user
