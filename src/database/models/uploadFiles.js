@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
+  class uploadFiles extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,41 +13,31 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Users.init({
-    name: {
-      type: DataTypes.STRING(150),
-      allowNull: false
+  uploadFiles.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
     },
-    email: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
-      unique: true
-    },
-    username: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
-      unique: true
-    },
-    password: {
+    url: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    image: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
   }, {
     sequelize,
-    modelName: 'users',
-    tableName: 'users',
+    modelName: 'upload_files',
     paranoid: true,
     timestamps: true,
     indexes: [
       {
         unique: true,
-        fields: ['email', 'username']
+        fields: ['id']
       }
     ]
   });
-  return Users;
+  return uploadFiles;
 };
