@@ -43,6 +43,8 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/register": "^7.15.3",
     "babel-plugin-module-resolver": "^4.1.0",
+    "express-swagger-generator": "^1.1.17",
+    "ip": "^1.1.5",
     "sequelize-cli": "^6.2.0"
   }
 }

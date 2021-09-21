@@ -5,7 +5,8 @@ dotenv.config()
 const environment = {
     env: process.env.NODE_ENV || 'development',
     res_log_level: process.env.RESPONSE_LOG_LEVEL,
-    server_port: process.env.PORT,
+    api_port: process.env.API_PORT,
+    api_version: process.env.API_VERSION,
 
     db_url: process.env.DATABASE_URL,
     db_host: process.env.DATABASE_HOST,

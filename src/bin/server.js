@@ -9,7 +9,7 @@ debug('app:server')
  * Get port from environment and store in Express.
  */
 
- var port = normalizePort(config.server_port || '3000');
+ var port = normalizePort(config.api_port || '3000');
  app.set('port', port);
  
  /**
