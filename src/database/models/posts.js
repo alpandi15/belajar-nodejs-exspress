@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     content: {
       type: DataTypes.STRING(255),
       allowNull: false
@@ -35,7 +39,11 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ['id', 'content']
+        fields: ['id', 'slug']
+      },
+      {
+        name: 'content_index',
+        fields: ['id', 'slug']
       }
     ]
   });
