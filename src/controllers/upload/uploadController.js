@@ -22,7 +22,7 @@ export function imageFilter (req, file, cb) {
 /**
  * To uploading file
  * @route POST /upload/{type}
- * @group Upload Files - Promo api documentation
+ * @group Upload Files - Upload files to server
  * @param {string} type.path.required - type of file - eg: images,files
  * @param {file} file.formData.required - file to upload
  * @returns {UploadResponse.model} 200 - An object of data
