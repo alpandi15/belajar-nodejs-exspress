@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'upload_files',
-    paranoid: true,
+    paranoid: false,
     timestamps: true,
     indexes: [
       {
