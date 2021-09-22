@@ -27,6 +27,19 @@ export const validation = (method) => {
   }
 }
 
+/**
+ * @typedef CreateModel
+ * @property {string} content.required - your content - eg: Home alone...
+ */
+
+/**
+ * To Post CRUD
+ * @route GET /post/{slug}
+ * @group Post - To Post CRUD
+ * @param {string} slug.path.required - slug of data
+ * @returns {ApiResponse.model} 200 - An object of data
+ * @returns {ApiError.model} 404 - Couldn't find Data.
+ */
 export const findOne = async (req, res, next) => {
   try {
     const data = await getBySlug(req?.params?.slug)
@@ -41,6 +54,13 @@ export const findOne = async (req, res, next) => {
   }
 }
 
+/**
+ * To Post CRUD
+ * @route GET /post
+ * @group Post - To get all post
+ * @returns {ApiResponse.model} 200 - An object of data
+ * @returns {ApiError.model} 404 - Couldn't find Data.
+ */
 export const findAll = async (req, res, next) => {
   try {
     const data = await getAll(req)
@@ -52,6 +72,14 @@ export const findAll = async (req, res, next) => {
   }
 }
 
+/**
+ * To Post CRUD
+ * @route GET /my-post
+ * @group Post - To get all my post
+ * @returns {ApiResponse.model} 200 - An object of data
+ * @returns {ApiError.model} 404 - Couldn't find Data.
+ * @security JWT
+ */
 export const findMyList = async (req, res, next) => {
   try {
     const data = await getMyList(req?.user?.id)
@@ -63,6 +91,17 @@ export const findMyList = async (req, res, next) => {
   }
 }
 
+/**
+ * To create new post
+ * @route POST /post
+ * @group Post - Create new post
+ * @param {CreateModel.model} request.body.required - params for create
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
+ * @security JWT
+ */
 export const create = async (req, res, next) => {
   try {
     const validate = validationResult(req)
@@ -83,6 +122,18 @@ export const create = async (req, res, next) => {
   }
 }
 
+/**
+ * To update post
+ * @route PUT /post/{slug}
+ * @group Post - Update post
+ * @param {string} slug.path.required - slug of data
+ * @param {CreateModel.model} request.body.required - params for create
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
+ * @security JWT
+ */
 export const update = async (req, res, next) => {
   try {
     const exists = await dataExists(req?.params?.slug)
@@ -107,6 +158,17 @@ export const update = async (req, res, next) => {
   }
 }
 
+/**
+ * To delete post
+ * @route DELETE /post/{slug}
+ * @group Post - Delete post
+ * @param {string} slug.path.required - slug of data
+ * @produces application/json
+ * @consumes application/json
+ * @returns {ApiResponse.model} 200 - Example to success response
+ * @returns {ApiError.model} 422 - Example to error response
+ * @security JWT
+ */
 export const destroy = async (req, res, next) => {
   try {
     const exists = await dataExists(req?.params?.slug)

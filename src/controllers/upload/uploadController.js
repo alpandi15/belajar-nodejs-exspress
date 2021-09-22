@@ -25,7 +25,7 @@ export function imageFilter (req, file, cb) {
  * @group Upload Files - Upload files to server
  * @param {string} type.path.required - type of file - eg: images,files
  * @param {file} file.formData.required - file to upload
- * @returns {UploadResponse.model} 200 - An object of data
+ * @returns {ApiResponse.model} 200 - An object of data
  * @returns {ApiError.model} 422 - Failed to insert data
  * @security JWT
  */
