@@ -2,3 +2,5 @@
 .env
 /src/public/images/*
 /src/public/files/*
+
+/dist

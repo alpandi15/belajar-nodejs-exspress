@@ -41,7 +41,6 @@ export const uploadFile = async (req, res, next) => {
     const storage = multer.diskStorage({
       destination: UPLOAD_PATH,
       filename: (req, file, cb) => {
-        console.log('REQUEST ', req);
         const nameUuid = uuidv4()
         filename = nameUuid + path.extname(file?.originalname)
         cb(null, filename)

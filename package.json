@@ -29,7 +29,8 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/bin/server.js",
+    "start": "NODE_ENV=production nodemon --exec babel-node ./dist/bin/server.js",
+    "dev": "nodemon --exec babel-node ./src/bin/server.js",
     "build": "npm run clean && babel ./src --out-dir dist --copy-files",
     "clean": "rm -rf dist",
     "create:model": "func() { npx sequelize-cli model:generate --name \"$1\" --attributes name:string; }; func",
