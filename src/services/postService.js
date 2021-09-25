@@ -9,10 +9,19 @@ const Fields = [
   'id',
   'slug',
   'content',
+  'countLike',
+  'countComment',
   'createdBy',
   'createdAt',
   'updatedAt',
 ]
+
+export const getById = (id) => tbl_posts.findOne({
+  attributes: Fields,
+  where: {
+    id
+  }
+})
 
 export const getBySlug = (slug) => tbl_posts.findOne({
   attributes: Fields,
