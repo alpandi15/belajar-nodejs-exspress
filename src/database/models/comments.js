@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Posts extends Model {
+  class comments extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,15 +13,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Posts.init({
+  comments.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    slug: {
-      type: DataTypes.STRING,
+    postId: {
+      type: DataTypes.INTEGER,
       allowNull: false
+    },
+    commentId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null
     },
     content: {
       type: DataTypes.STRING(255),
@@ -37,25 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: 0
     },
-    createdBy: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
   }, {
     sequelize,
-    modelName: 'posts',
-    paranoid: false,
-    timestamps: true,
-    indexes: [
-      {
-        unique: true,
-        fields: ['id', 'slug']
-      },
-      {
-        name: 'content_index',
-        fields: ['id', 'slug']
-      }
-    ]
+    modelName: 'comments',
   });
-  return Posts;
+  return comments;
 };
